@@ -16,33 +16,34 @@ function getComputerChoice() {
 
 function playRound(playerSelection, computerSelection) {
     let playerChoice = playerSelection.toLowerCase();
-    if(playerChoice === "rock" && computerSelection === "paper") {
-        console.log("You lose! Paper beats Rock");
+    if(playerChoice === "paper" && computerSelection === "scissors" 
+        || playerChoice === "rock" && computerSelection === "paper"
+        || playerChoice === "scissors" && computerSelection === "rock") {
+            return -1;
     }
-    else if(playerChoice === "paper" && computerSelection === "scissors") {
-        console.log("You lose! Scissors beats Paper");
-    }
-    else if(playerChoice === "scissors" && computerSelection === "rock") {
-        console.log("You lose! Rock beats Scissors");
-    }
-    else if(playerChoice === "paper" && computerSelection === "rock") {
-        console.log("You win! Paper beats Rock");
-    }
-    else if(playerChoice === "scissors" && computerSelection === "paper") {
-        console.log("You win! Scissors beats paper");
-    }
-    else if(playerChoice === "rock" && computerSelection === "scissors") {
-        console.log("You win! Rock beats Scissors")
+    else if(playerChoice === "paper" && computerSelection === "rock" 
+        || playerChoice === "rock" && computerSelection === "scissors"
+        || playerChoice === "scissors" && computerSelection === "paper") {
+        return 1;
     }
     else {
-        console.log("It is a draw!");
+        return 0;
     }
 }
 
 function playGame() {
     for(let i = 0; i < 5; i++) {
         let playerChoice = prompt("Choose rock, paper of scissors");
-        playRound(playerChoice, getComputerChoice());
+        roundWinner = playRound(playerChoice, getComputerChoice());
+        if(roundWinner === -1) {
+            console.log(`You lose! ${computerSelection} beats ${playerChoice}`);
+        }
+        else if(roundWinner === 1) {
+            console.log(`You win! ${playerChoice} beats ${computerSelection}`);
+        }
+        else {
+            console.log(`It's a draw!`);
+        }
     }
 }
 
