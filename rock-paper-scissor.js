@@ -34,7 +34,8 @@ function playRound(playerSelection, computerSelection) {
 function playGame() {
     for(let i = 0; i < 5; i++) {
         let playerChoice = prompt("Choose rock, paper of scissors");
-        roundWinner = playRound(playerChoice, getComputerChoice());
+        let computerChoice = getComputerChoice();
+        roundWinner = playRound(playerChoice, computerChoice);
         if(roundWinner === -1) {
             console.log(`You lose! ${computerSelection} beats ${playerChoice}`);
         }
