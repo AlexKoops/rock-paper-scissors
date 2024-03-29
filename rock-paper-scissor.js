@@ -31,21 +31,56 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function playGame() {
-    for(let i = 0; i < 5; i++) {
-        let playerChoice = prompt("Choose rock, paper of scissors");
-        let computerChoice = getComputerChoice();
-        roundWinner = playRound(playerChoice, computerChoice);
-        if(roundWinner === -1) {
-            console.log(`You lose! ${computerSelection} beats ${playerChoice}`);
-        }
-        else if(roundWinner === 1) {
-            console.log(`You win! ${playerChoice} beats ${computerSelection}`);
-        }
-        else {
-            console.log(`It's a draw!`);
-        }
-    }
-}
+let btns = document.querySelectorAll('.playBtn');
+let playerResults = document.querySelector('#scorePlayer');
+let computerResults = document.querySelector('#scoreComputer');
+playerScore = 0;
+computerScore = 0;
+playerResults.textContent = 'Score Player: ';
+computerResults.textContent = 'Score Computer: ';
+btns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+        let playerChoice = btn.id;
+        let computerSelection = getComputerChoice();
+        let result = playRound(playerChoice, computerSelection);
+        const container = document.querySelector("#results");
 
-playGame();
+        container.textContent = '';
+
+        let content = document.createElement("div");
+        content.classList.add("content");
+
+        switch(result) {
+            case -1:
+                content.textContent = `You lose! ${computerSelection} beats ${playerChoice}`;
+                computerScore++;
+                computerResults.textContent = ` Score Computer: ${computerScore}`;
+                break;
+            case 1:
+                content.textContent = `You win! ${playerChoice} beats ${computerSelection}`;
+                playerScore++;
+                playerResults.textContent = `Score Player: ${playerScore}`;
+                break;
+            case 0:
+                content.textContent = `It's a draw`;
+                break;
+        }
+        container.appendChild(content);
+        if(computerScore === 5) {
+            container.textContent = '';
+            container.textContent = `Computer got 5 points, you lose the game`;
+            playerResults.textContent = 'Score Player: ';
+            computerResults.textContent = 'Score Computer: ';
+            playerScore = 0;
+            computerScore = 0;
+        }
+        else if(playerScore === 5) {
+            container.textContent = '';
+            container.textContent = `Player got 5 points, you win the game`;
+            playerResults.textContent = 'Score Player: ';
+            computerResults.textContent = 'Score Computer: ';
+            computerScore = 0;
+            playerChoice = 0;
+        }
+    });
+});
